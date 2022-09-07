@@ -66,7 +66,7 @@ nameserver @ip_dns
  * Créer fichier ***/etc/dnsmasq.d/X.X.X.conf***
 ```
 dhcp-range = @ip_debut,@ip_fin,@masque,@XXh
-dhcp-range = @MAC,@nom,@ip_attribué,@XXm
+dhcp-host = @MAC,@nom,@ip_attribué,@XXm
 ```
 * Activer DHCP coté client dans ***/etc/network/interfaces
 ```

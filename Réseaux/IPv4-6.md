@@ -31,7 +31,13 @@
 
 ### Classe IPV4
 
-![[Pasted image 20220901130547.png]]
+* Classe A = 0-127 où 127 utiliser pour loopback
+* Classe B = 128-191
+* Classe C = 192-223
+* Classe D = 224-239 
+* Classe E = 240-255 (internet expérimental)
+
+![[Pasted image 20220906221541.png]]
 ## III) IPV6 
 
 ### Type d'adresses 
