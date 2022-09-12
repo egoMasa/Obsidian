@@ -1,18 +1,20 @@
 # Guide pour les fichiers python
 ## Syntaxe générale 
-```
+```python
 with open ("fichier","{r,w,x}",encoding = "?") as fd :
-	instructions....
+	instructions...
 ```
 * r = read
 * w = write
 * x = execute
 ## Méthodes 
 * Ouvrir fichier
-<code>with open ("fichier","{r,w,x}",encoding = "?") as fd :</code>
+```python
+with open ("fichier","{r,w,x}",encoding = "?") as fd :
+```
 
 * Lire une ligne
-<code>fd.readline()</code>
+``fd.readline()``
 
 * Lire tout le fichier sous format ***liste***
 <code>fd.readlines()</code>
