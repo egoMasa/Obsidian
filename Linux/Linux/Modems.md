@@ -1,7 +1,41 @@
 # Guide Modems
 
 ## I) Connexions physique
-
+* Numéro de chaque modem
+```
+Dale = 912 (Appelant)
+Chip = 911 (Appelé)
+```
+* Télécharger ***minicom***
+```
+apt-get install minicom
+```
+* Lancer minicom sur device correcte 
+```
+minicom -D /dev/ttyS0
+```
+* Changer protocoles modem
+```
+ATN1 = Version 21
+ATN2 = Version 22
+```
+* Remettre état d'usine
+```
+ATZ3
+```
+* Afficher paramètres modem
+```
+ATI0
+ATI1
+```
+* Lancer appel d'un modem vers l'autre (appelant)
+```
+ATDT@numero_appelé
+```
+* Répondre à l'appel (appelé)
+```
+ATA
+```
 ## II) Connexion via réseau
 
 ### Cote serveur 
@@ -106,28 +140,24 @@ apt-get install ppp
 * Éditez le fichier ***~/ppp***
 ```
 #!/bin/sh
-/usr/sbin/pppd connect '/usr/sbin/chat -V -f /home/stud/ppp.script' /dev/ttyS0 57600
-     -detach crtscts modem defaultroute idle 1800 debug
+/usr/sbin/pppd connect '/usr/sbin/chat -V -f /home/stud/ppp.script' /dev/ttyS0 57600 -detach crtscts modem defaultroute idle 1800 debug
 ```
 * Éditez le fichier ***~/ppp.script***
 ```
 '' ATZ OK ATM0 OK ATDT@num_serveur 'CONNECT' '' ogin: ppp
 ```
-* Editez le fichier ***/etc/ppp/pap-secrets***
+* Editez le fichier ***/etc/ppp/pap-secrets*** à la fin
 ```
 chip * toto *
 dale * toto *
 ```
 * Lancer script de connexion
 ```
-./ppp.script
-!Si probleme
-./ppp.script -v > /dev/null
+sudo ./ppp
 ```
 *  Activer interfaces ***ppp0*** sur les 2 machines, relevez leurs adresses IPs
 ```
-ifup ppp0
-ip a
+watch ip a
 ```
 * Utiliser ***Tshark*** sur l'interface ***ppp0***
 ```
@@ -140,19 +170,4 @@ ping @ip
 * Afficher état table de routage
 ```
 ip route
-```
-
-### Compétences à montrer
-* Montrer un login au travers de minicom :
-```
-
-```
-* Montrer l’apparition des interfaces ppp0 : watch ip address show ppp0
-```
-```
-* Mettre un tshark sur une interface ppp0 
-```
-```
-* Montrer la connexion ip.
-```
 ```
