@@ -1,1 +1,0 @@
-Guide MariaDB Linux
