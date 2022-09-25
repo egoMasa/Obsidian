@@ -23,27 +23,40 @@
 
 ## II) Commandes VLAN
 
--   Créer un VLAN
+### Partie 1 : Ajout VLAN aux interfaces avec mode correspondant
+1. Créer un VLAN
 ```bash
-R1(config)#vlan @numero  
-R1(config-vlan)#name @nom
+SW(config)#vlan @numero  
+SW(config-vlan)#name @nom
 ```
 
 -   Afficher VLAN et ses affectations
 ```bash
-R1#show vlan brief
+SW#show vlan brief
 ```
 
--   Affecter un VLAN à une interface mode access
+2. Affecter VLAN aux interfaces
 ```bash
-R1(config)#interface range fastEthernet 0/5-8  
-R1(config-if)#switchport mode access
-R1(config-if)#switchport access vlan @num
+SW(config)#interface range fastEthernet 0/0-5  
+SW(config-if)#switchport mode access
+SW(config-if)#switchport access vlan @num
 ```
 
--   Affecter un VLAN à une interface mode trunk
+3. Affecter mode trunk à une interface (relié au routeur)
 ```bash
-R1(config)#interface @interface  
-R1(config-if)#switchport trunk encapsulation dot1q
-R1(config-if)#switchport mode trunk
+SW(config)#interface @interface  
+SW(config-if)#switchport mode trunk 
+```
+
+### Partie 2 : Configuration adressage IP
+
+1. Création sous interface via encapsulation dot1Q
+```
+R1(config)#interface fa0/1.10 #Au choix 
+R1(config-subif)#encapsulation dot1Q @num_vlan
+R1(config-subif)#ip address 172.17.@num.1 255.255.255.0 
+
+R1(config-subif)#interface fa0/1.30 
+R1(config-subif)#encapsulation dot1Q @num_vlan2
+R1(config-subif)#ip address 172.17.@num.1 255.255.255.0
 ```

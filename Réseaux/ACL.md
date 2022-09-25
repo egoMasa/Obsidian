@@ -19,7 +19,7 @@
 
 1.  ***Création ACL***
 ```bash
-R1(config)#access-list @numero @permit|deny @ip_reseau @masque_invert  
+R1(config)#access-list @numero @permit|deny @ip_source @masque_invert  
 R1(config)#access-list @numero permit any
 ```
 
@@ -35,12 +35,12 @@ R1(config-if)#ip access-group @num @in|out
 
 1.  ***Création ACL***
 ```bash
-R1(config)#access-list @numero @permit|deny @type @ip_source @masque_invert @ip_desti @masque_invert  
+R1(config)#access-list @numero @permit|deny @protocole @ip_source @masque_invert @ip_desti @masque_invert  
 R1(config)#access-list @numero permit any any
 ```
 ou
 ```bash
-R1(config)#access-list @numero @permit|deny @type host @ip host @ip  
+R1(config)#access-list @numero @permit|deny @protocole host @ip_a host @ip_b 
 R1(config)#access-list @numero permit any any
 ```
 
@@ -55,12 +55,16 @@ R1(config-if)#ip access-group @num @in|out
 1.  ***Création ACL***
 ```bash
 R1(config)#ip access-list @extended|standard @nom  
-			permit ...  
-			deny ... any any
+R1(config-ext-nacl)#permit|deny @protocole @ip @masque_invert any eq @port
 ```
 
 2.  ***Activation sur interface***
 ```bash
 R1(config)#interface @interface  
 R1(config-if)#ip access-group @num @in|out
+```
+
+3. Afficher différentes ACL 
+```cisco
+#show access-lists
 ```

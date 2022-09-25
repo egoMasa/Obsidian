@@ -58,3 +58,33 @@
 
 ![[Pasted image 20220901131615.png]]
 
+### Commandes IPV6
+* Activation IPv6 globale
+```
+R1(config)#ipv6 unicast-routing
+```
+* Activer IPv6 sur une interface
+```
+R1(config)#interface @interface
+R1(config-if)#ipv6 enable
+```
+* Verifier paramètres IPv6 d'une interface
+```
+R1#sh ipv6 interface
+
+-Une adresse Link-Local auto-configurée (Stateless Address Auto Configuration)FE80::20F:1FF:FEC7:3200
+
+-Une adresse Well-Know Multicast “Tous les noeuds sur la liaison” FF02::1
+
+-Une adresse Solicited-Node Multicast FF02::1:FFC7:3200
+```
+* Configurer IPv6 lien local sur interface
+```
+R1(config)#interface @interface
+R1(config-if)#ipv6 address FE80::X link-local
+```
+* Configurer adresse IPv6 sur une interface
+```
+R1(config)#interface @interface
+R1(config-if)#ipv6 address @ip/Masque eui-64
+```

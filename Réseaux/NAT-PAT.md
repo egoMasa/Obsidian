@@ -34,6 +34,7 @@ R1(config-if)#ip nat inside
 R1(config)#interface @interface  
 R1(config-if)#ip nat outside
 
+#Définition du NAT
 R1(config)#ip nat inside source static @ip_reseau_interne @ip_exterieur
 ```
 
@@ -46,8 +47,13 @@ R1(config-if)#ip nat inside
 R1(config)#interface @interface  
 R1(config-if)#ip nat outside
 
-R1(config)#ip nat pool @nom @ip_debut @ip_fin netmask @masque  
+#Adresses locales soumises au NAT
 R1(config)#access-list 1 permit @ip_interne @masque  
+
+#Pool d'adresses globale
+R1(config)#ip nat pool @nom @ip_debut @ip_fin netmask @masque  
+
+#Définition du NAT
 R1(config)#ip nat inside source liste 1 pool @nom
 ```
 
@@ -84,7 +90,10 @@ R1(config-if)#ip nat inside
 R1(config)#interface @interface  
 R1(config-if)#ip nat outside
 
+#Adresses locales soumises au PAT
 R1(config)#access-list 1 permit @ip_interne @masque_invert
+
+#Définition du PAT
 R1(config)#ip nat inside source list 1 interface @interface overload
 ```
 
@@ -100,4 +109,12 @@ R1(config-if)#ip nat outside
 R1(config)#ip nat pool @nom @ip_debut @ip_fin netmask @masque
 R1(config)#access-list 1 permit @ip_interne @masque_invert
 R1(config)#ip nat inside source liste 1 pool @nom overload
+```
+
+### Commandes diagnostic NAT/PAT
+```
+#sh running-config | include nat
+#sh access-list
+#sh ip nat translations
+#sh ip nat statistics
 ```

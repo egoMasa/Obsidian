@@ -21,9 +21,9 @@
 
 ### Versions :
 
-* V1 envoie ses messages en BROADCAST et ne gère aucun sous-réseau
+* V1 envoie ses messages en ***BROADCAST*** et ne gère aucun sous-réseau
 
-* V2 envoie ses messages en MULTICAST et gère les sous réseau (VLSM)
+* V2 envoie ses messages en ***MULTICAST*** et gère les sous réseau (VLSM)
 
 ### Commandes RIP :
 
@@ -74,9 +74,9 @@ R1(config-router)#passive-interface @interface
 ### Mises à jour:
 * Concernant les mises à jour, elles sont transmises uniquement en MULTICAST comme ceci
 
-	-   Les mises à jour envoyées par le DR utilisent l’adresse IP 224.0.0.5
+	-   Les mises à jour envoyées par le DR utilisent l’adresse IP ***224.0.0.5***
     
-	-   Les mises à jour envoyées au DR et au BDR utilisent l’adresse IP 224.0.0.6
+	-   Les mises à jour envoyées au DR et au BDR utilisent l’adresse IP ***224.0.0.6***
 
 ### Commandes OSPF :
 
@@ -100,7 +100,7 @@ R1(config-router)#ip ospf priority <0-255>
 R1(config-router)#router-id @IP
 ```
 
--   Partager route par défaut
+-   Partager route par statique/defaut
 ```bash
 R1(config-router)#default-information originate
 ```
@@ -108,4 +108,60 @@ R1(config-router)#default-information originate
 -   Empêcher interface de partager mise à jour de la table
 ```bash
 R1(config-router)#passive-interface @interface
+```
+
+
+## II) EIGRP (gros réseaux)
+
+### Fonctionnement :
+
+* EIGRP est un ***protocole sans classe*** à ***vecteurs de distance*** mais aussi à ***état de liens***.
+* Il offre une ***convergence rapide***
+* Il support ***VLSM*** 
+* Utilise ***RTP*** pour l'envoi de ***messages EIGRP***
+* Utilise l'algorithme ***DUAL*** pour determiner un ***chemin sans boucle***
+
+* Trois modes d'envoi de mises à jours : 
+	* limitées = MAJ only vers routeurs concernés
+	* partielles = MAJ avec changement uniquement(pas toute la table)
+	* non périodique = MAJ lors de changement de topologie
+
+* EIGRP gère ***trois tables*** :
+	* 1.  ***Neighbor Table*** : une table de voisinage est utilisée pour une livraison fiable des messages.
+	* 2.  ***Topology Table*** : une table topologique qui contient toutes les routes EIGRP sans boucles.
+	* 3.  La ***table de routage*** pouvant contenir les meilleures routes EIGRP.
+
+### Commandes EIGRP :
+
+-   Activer OSPF sur le routeur
+```bash
+R1(config)#router eigrp 1
+```
+-   Rendre interface passive 
+```bash
+R1(config-router)#passive interface @interface
+```
+-   Modifier ID eigrp du routeur
+```bash
+R1(config-router)#eigrp router-id @id
+```
+-   Annoncer réseau voisin
+```bash
+R1(config-router)#network @ip_reseau @masque_invert
+```
+-   Vérifier configuration IPv4
+```bash
+R1#show ip protocols | begin eigrp
+```
+* Configurer delai "Hello"
+```bash
+R1(config-if)#ip hello-interval eigrp @instance @secondes
+```
+* Configurer delai "Hold-time"
+```bash
+R1(config-if)#ip hold-time eigrp @instance @secondes
+```
+* Modifier métrique interface 
+```bash
+R1(config-if)#bandwidth @num
 ```

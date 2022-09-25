@@ -29,6 +29,59 @@
 
 	4)Acknowledgement (Unicast): Le serveur reçoit l’offre finale et envoie l’accusé fin
 
+### Commandes CISCO
+* Création d'un pool DHCP
+```cisco
+(config)#ip dhcp pool @name
+(dhcp-config)#network @ip_reseau @masque
+(dhcp-config)#default-router @ip
+```
+* Durée du bail DHCP
+```cisco
+(dhcp-config)# lease @jour @heure @seconde
+```
+* Options gateway et serveur DNS
+```cisco
+(config)#ip dhcp pool @name
+(dhcp-config)#default-router @ip
+(dhcp-config)#dns-server @serveur1 @serveur2 ...
+```
+* Exclusion d'adresses
+```cisco
+(config)#ip dhcp excluded-address @ip_debut @ip_fin
+```
+* Detruire pool DHCP
+```cisco
+(config)#no ip dhcp pool @name
+```
+* Exemple
+```bash
+Gateway(config)#ip dhcp pool GW
+Gateway(dhcp-config)#network 192.168.1.0 255.255.255.0
+Gateway(dhcp-config)#default-router 192.168.1.254
+Gateway(dhcp-config)#dns-server 8.8.8.8
+Gateway(dhcp-config)#lease 0 8
+Gateway(dhcp-config)#exit
+Gateway(config)#ip dhcp excluded-address 192.168.1.1 192.168.1.10
+```
+
 ## II) DNS
 
 * Le DNS permet de traduire lors d’une recherche sur un navigateur un nom (ex : instagram) en une IP que l’ordinateur utilise réellement.  Il utilise un système de page jaune en quelque sorte qui lui permet de ***relier un nom à une IP***. Ce protocole fonctionne sous ***UDP*** avec le ***port 53*** pour les requêtes standards
+### Commandes DNS
+* Activer resolution DNS
+```cisco
+R1(config)#ip domain-lookup
+```
+* Désactiver resolution DNS
+```cisco
+R1(config)#no ip domain-lookup
+```
+* Configure un resolveur de noms
+```cisco
+R1(config)#ip name-server @ip
+```
+* Activer service DNS
+```cisco
+R1(config)#ip dns server
+```
