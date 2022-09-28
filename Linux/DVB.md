@@ -23,7 +23,7 @@ time w_scan -ft > channels.conf 2> channels.log
 ```
 wget http ://10.30.3.1/safi/src/fr-Marseille
 
-w_scan -X -ft -I fr-Marseille > channels.conf 2> channels.log
+w_scan -X -ft -I > channels.conf 2> channels.log
 -X : pour zap/czap/xine ;
 -M : pour mplayer ou mpv
 ```

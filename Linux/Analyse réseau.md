@@ -1,18 +1,47 @@
 # Guide Analyse réseau
 
-## I) Principe et explication
-
-## II) Tshark
+## I) Tshark
 * Installer ***tshark***
+```
+sudo apt-get install tshark
+```
 * Afficher traffic sur toutes les interfaces
+```
+tshark -n -i any
+```
 * Afficher traffic sur une interface 
-* Afficher traffic avec filtre port
-* Afficher traffic avec filtre host
-* Afficher traffic avec filtre port et host
+```
+tshark -n -i @interface
+```
+* Filtrer un port
+```
+tshark -n -i @interface -f "port XX"
+```
+* Filtrer un host
+```
+tshark -n -i @interface -f "host X.X.X.X"
+```
+* Filtrer un port et un host
+```
+tshark -n -i @interface -f "port XX and host X.X.X.X"
+```
+* Filtrer un port et pas un host
+```
+tshark -n -i @interface -f "port XX and not host X.X.X.X"
+```
 
-## III) Ping et envoie de données (telnet,ssh,nc)
-* Port 22 SSH
-* Port 23 Telnet
-* Port 80 HTTP
+## II) Ping et envoie de données 
+* Envoyer donnée sur un port cible 
+```
+nc @host @port
+```
 
 ## IV) Scan ports ouverts (nmap, ss)
+* Afficher ports ouverts sur sa machine
+```
+ss -tunlp
+```
+* Afficher ports ouverts sur une machine cible
+```
+nmap @ip
+```
