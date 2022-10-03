@@ -38,17 +38,3 @@ Si un requete envoyé sur un port précis (ex : 80 du serveur) et que la reponse
 * Cette passerelle assure le relai des flux, gestions d'athentification et des autorisations, Détections d'intrusions, Filtrage contenues indésirables, Journalisation des logs. Le but est de protéger de facon encore plus sécurisé une zone bien précise reculé dans le réseau et de laisser une partie avec un seul firewall comme défense (des services non comprometant)
 
 ## IV) Politique de filtrage
-
-### Principes généraux
-* On met en place des règles de filtrage à la suite les une des autres
-* A une connexion type (ip/port) on y met un règle au choix (permit/deny)
-* Il faut définir les flux origine ou destination le pare-feu
-
-### Flux à destination pare-feu
-```
-Autoriser :
-Les services d'administration (ssh, https)
-Les services de supervision de la passerelle (DMZ)(get-snmp)`
-
-Ne pas autoriser
-```
