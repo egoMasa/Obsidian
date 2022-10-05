@@ -95,18 +95,20 @@ ou
 setattr(objet,"dents",21)
 ```
 
-* ``*args`` et `**kwargs`
+* Ajouter paramètres facultatifs `*args` (sac à paramètres potentiels)
 ```python
-def __init__ (self,taille,*args)
-#Attribut optionnel ne faisant pas partie de la structure de l'objet
-if "exemple" in args
-	self.attribut = ...
-
-
-#Modifier structure de notre classe
-def __init__ (self,taille,**kwargs):
-	if 'exemple' in kwargs:
-		blabla
+class Personne
+	def __init__(self,nom,prenom,age,*args):
+		self.nom = nom
+		self.prenom = prenom
+		self.age = age
+		if 'masculin' in args:
+			self.sexe = 'masculin'
+		if 'etudiant' in args:
+			self.statut = 'etudiant'
+instance = Personne("fournier","jérémy",19,etudiant)
+print(instance.__dict__)
+>>{'nom': 'fournier', 'prenom': "jeremy", 'age':19, 'statut':'etudiant'}
 ```
 
 * Attributs privés (rendre impossible l'action directe, faut passer par des méthodes qui joue le role d'interface)
@@ -120,7 +122,7 @@ print(objet.nom)
 >> Attribute Error # On peut plus y accéder directement
 ```
 
-* Accesseurs et Mutateurs ``get_XXXX()`` et ``set__XXXX()`` (méthodes d'accès aux attributs privés)
+* Accesseurs ``get_XXXX()`` et Mutateurs ``set__XXXX()``
 ```python
 class Monstre:
 
@@ -143,7 +145,7 @@ objet.get_nom()
 >>Kraken
 ```
 
-* Fonctions `dir` et `__dict__`
+* Afficher attributs de classe avec `__dict__` et méthodes `dir`
 ```python
 class Monstre:
 
@@ -166,44 +168,49 @@ print(dir(objet)) # Affiche méthodes et attributs de l'instance
 >>['attack','nom','vie']
 ```
 
-* Input et Output
+## User INPUT et OUTPUT
+* Ajouter méthode `get_user_inputs(self)`
 ```python
 class Monstre:
 
-	def __init__(self,a,b):
-		self.__nom = a
-		self.__vie = b
-		
-	def get_nom(self):
-		return self.__nom
-		
-	def get_vie(self):
-		return self.__vie
-		
-	def set_nom(self,x):
-		self.__nom = x
-		
-	def set_vie(self,y):
-		self.__vie = y
+	def __init__(self,nom,vie):
+		self.__nom = nom
+		self.__vie = vie
 
-	def get_user_input(Monstre)
-		Monstre.set_nom(input("Saisir nom :"))
-		Monstre.set_vie(int(input("Saisir vie : ")))
-		
-objet = Monstre(0,0)
-
-objet.get_user_input()
->>"Saisir nom : " Shark
->>"Saisir vie : " 100
-
-print(objet.get_nom())
->>"Shark"
-
-print(objet.get_vie())
->>100
+	def get_user_input(self)
+		while True:
+			try:
+				nom = input("Entrez nom : ")
+				vie = int(input("Entrez vie : "))
+				return self(nom, vie)
+```
+## Paramètres facultatifs
+* Ajouter paramètres facultatifs `*args` (sac à paramètres potentiels)
+```python
+class Personne
+	def __init__(self,nom,prenom,age,*args):
+		self.nom = nom
+		self.prenom = prenom
+		self.age = age
+		if 'masculin' in args:
+			self.sexe = 'masculin'
+		if 'etudiant' in args:
+			self.statut = 'etudiant'
+instance = Personne("fournier","jérémy",19,etudiant)
+print(instance.__dict__)
+>>{'nom': 'fournier', 'prenom': "jeremy", 'age':19, 'statut':'etudiant'}
 ```
 
-* Décorateurs de classe
+## Heritage de classe
 ```python
+class Parent:
+	def __init__(self,nom):
+		self.nom = nom
 
+class Enfant(Parent):
+	def __init__(self,nom,prenom):#Init Enfant 
+		super().__init__(self,nom)#Init Parent
+		self.prenom = prenom
+		
+enfant = Enfant("Nom","Prenom")
 ```

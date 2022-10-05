@@ -11,17 +11,21 @@
 ## II) Syntaxe 
 * Gestion erreurs
 ```python
-try:
-	print(1/0) #Impossible, erreur division par 0
-	
-except ZeroDivisionError: #On peut renseigner le type d'erreur
-	print("Something Else")
-	
-else: #Si aucun expect correspond
-	print("Else")
+while True:
 
-finally: #Dans touts les cas
-	print("finally")
+	try:
+		print(1/0) #Impossible, erreur division par 0
+		break # Si aucunes erreurs fin des tests
+	
+	except (ZeroDivisionError,ValueError): #On peut renseigner le type d'erreur
+		print("Something Else")
+		
+	else: #Si aucun expect correspond
+		print("Else")
+	
+	finally: #Dans touts les cas
+		print("finally")
+		break
 >>Something Else
 >>Finally
 ```
@@ -29,9 +33,9 @@ finally: #Dans touts les cas
 * Erreurs customisées
 ```python
 if condition:
-	...
+	raise TypeError("Message d'erreur")
 else:
-	raise TypeError("Message about error")
+	break
 ```
 
 * Verifications et tests unitaires

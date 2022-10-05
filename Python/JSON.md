@@ -8,14 +8,25 @@
 <code>import json</code>
 
 ## Méthodes
-* Charger fichier JSON
+* Charger fichier JSON (json->python)
 ```python
 with open ("fichier.json","r") as fd :
-	json.load(fd)
+	json.load(fd) #Désérialisation en str
+	json.loads(fd) #Désérialisation en dico
 ```
-* Ajouter données (dico) dans fichier JSON
+* Ajouter données (dico) dans fichier JSON (python->json)
 ```python
 données = {...}
 with open ("fichier.json","w+") as fd :
-	json.dump(données, fd)
+	json.dump(données, fd) #Sérialisation en str
+	json.dumps(données, fd) #Sérialisation en dico
+```
+
+* Insérer JSON dans SQLite
+```python
+import sqlite3
+sqlite3.connect("db_json")
+json.load(open('file.json','r'))
+create_query = "CREATE TABLE IF NOT EXISTS (ID INTEGER PRIMARY KEY, JSON VARCHAR(1000))"
+insert_query = "INSERT INTO VOITURE"
 ```
