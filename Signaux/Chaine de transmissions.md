@@ -1,145 +1,66 @@
-# Cours chaine de transmissions
+# Guide chaîne de transmission
 
-# I) Shéma transmissions numériques
-* Le ***signal transportant*** une information doit passer par un moyen de transmission entre un ***émetteur*** et un ***récepteur***
-* Il faut souvent ***adapté le signal*** par rapport au ***canal de transmission*** (Hertzien, Filaire, Optique)
-* La modulation est le processus qui ***transforme le signal d'origine*** (à transmettre) en une forme adapté au canal de transmission. 
-* La modulation consiste à faire ***varier l'amplitude, la fréquence*** et/ou la ***phase*** d'un ***signal sinusoidale*** nommée ***porteuse***
-* L'équipement qui effectue cette modulation s'appelle un modulateur
-* La demodulation consiste à extraire le signal d'origine de la porteuse.
-
-	![[Amfm3-en-de.gif]]
-
-
-# II) Modulation
-
-### 1) Modulation d'amplitude (linéaire) deux bandes latérales avec porteuse(AM)
-* On prend 2 signaux d'entrée : 
-
-* 1) Signal à transmettre (basse fréquence) appelé modulante
+# Rappel 
+* Spectre d'un signal = Domaine fréquentielle grâce à la TF/SF, représentation sous forme de raie de fréquences avec amplitude
+* On utilise la valeur absolue pour representrer un spectre car physiquement les fréquences négatives n'existent pas
+* Pour retrouver fréquence à partir de l'équation
 ```
-m(t) = Am*cos(2*pi*Fm*t + Pm) = Am*cos(Wm*t+Pm)
+A*cos({3,8*10^6}*t)
+f = {3,8*10^6}/2*pi
 ```
 
-* 2)Signal porteuse (haute fréquence)  
+# Modulation
+* Un signal modulant (faible fréquence)
+`m(t) = Am*cos(2*pi*fm*t+phi)`
+* Un signal porteur (haute fréquence)
+`p(t) = Ac*cos(2*pi*fc*t+phi)`
+* Un signal modulé (résultat)
+`s(t) = m(t).*p(t)`
+* Astuce : si m(t) et p(t) sont des cos ou sin on peut utiliser les formules de ces dernières pour linéariser et analyser plus facilement
 ```
-p(t) = Ac*cos(2*pi*Fc*t + Pc) = Ac*cos(Wc*t+Pc)
-```
-
-* On sait que ``Pm = Pc``
-```
-Am = Amplitude onde modulé ( à transmettre)
-Fm = Fréquence onde modulé
-Wm = 2*pi*Fm
-Pm = Phase modulante
-```
-
-*  On sort 1 signal en sortie = Signal modulé qui est ``m(t)*p(t)``
-```
-f(t) = [Ac+Ka*m(t)]*cos(Wc*t)
-	Ac= Amplitude de la porteuse (carrier)
-	Ka = Coefficient 
-	K = Régler au choix, selon le cas
+cos(a)*cos(b) = {cos(a-b)+cos(a+b)}/{2}
+sin(a)*sin(b) = {sin(a-b)-sin(a+b)}/{2}
+sin(a)*cos(b) = {sin(a+b)+sin(a-b)}/{2}
+cos(a)*sin(b) = {sin(a+b)-sin(a-b)}/{2}
 ```
 
-* Condition de modulation (Ampli_porteuse superieure au signal * K)
-```
-Ac >= Ka*mfm(t)
-```
-* Indice de modulation 
-```
-m = Ka*Am
-```
-* Condition modulation 
-```
-m = (Ka*Am)/Ac <= 1
-```
-* Pour Analyser un signal il faut linéariser (multiplication vers addition)	
-```
-cos(a)*cos(b) = (cos(a+b)+cos(a-b))/2
-```
-* Puissance d'emission signal modulé en W : 
-```
-pT = pC+pUSB+pLSB
-pC(porteuse) = pT/1+(m^^2)/2
-pUSB = PLSB = ((m^^2)/4)*pC
-```
 
-### 2) Modulation d'amplitude (linéaire) deux bandes latérales sans porteuse
-
-
-### 3) Modulation d'amplitude (linéaire) bande laterale unique
-
-
-### 4) Modulation fréquence/phase (non-linéaire)(FM)
-* Message : ``m(t)``
-* Porteuse : ``p(t)``
-* Signal modulé : ``s(t) = a(t)*cos(2*pi*fo*t + phi(t))``
-* 
-
-
-
-
-# III) Démodulation
-
-### 1) Démodulation double bande avec porteuse (Dbap)
-* Pour retrouver le signal d'origine on s'attarde sur l'enveloppe si elle est positive
-
-### 2) Démodulation double bande sans porteuse (Dbsp)
-* On transmet seulement les deux bandes latérales
-```
-f(t) = Ac*cos(Wm)*t*cos(Wc)*t = Ka*Am*cos(Wm)*t*cos(wC)*t
-```
-* Pour obtenir le signal démodulé "Sd(t)" il faut appliquer un filtre passe bas du signal modulé multiplié par la porteuse
-```
-Soit s(t)= s_modulé | p(t) = s_porteuse
-
-Sd(t) = FiltrePB{s(t)*p(t)}
-Sd(t) = [m(t)*Acos(2*pi*fo*t)]*Acos(2*pi*fo*t)
-Sd(t) = ((A**2)/2)*[m(t)+m(t)*cos(2*pi*(2*fo)*t]
-Sd(t) = m(t)
-```
-* Cas où le signal modulé pas en phase avec porteur 
-```
-Sd(t) = s(t)*p(t+cos(phi))
-Sd(t) = [m(t)*Acos(2*pi*fo*t)]*Acos(2*pi*fo*t+phi)
-Sd(t) = ((A**2)/2)*[m(t)*cos(phi)+m(t)*cos(2*pi*(2*fo)*t+phi]
-Sd(t) = m(t)*cos(phi)
-
-Attention si phi = pi/2 on perd le signal
-```
-
-# Résumé exercice
-
-* Trouver fréquence  fo à partir `Acos((3,802*10**6)*t)`
-```
-Fo = (3,802*10**6)/2*pi
-```
-* Trouver fréquence modulante (distance entre porteuse et bande latérale)
-```
-Fréquence/bande modulante = Fp-Fusb
-```
-* Trouver indice de modulation %
+# Modulation AM
+* Variation de l'amplitude 
+* Signal modulant sur enveloppe du signal modulé
+* Taux de modulation m :
 ```
 m = Am/(Ap/2)
+m = sqrt(({pt/pc}-{1})*2)
+m = {A-B}/{A+B}
 ```
-* Trouver indice de modulation à partir P(t)
+![[Pasted image 20221012221622.png]]
+* Condition de modulation m
+`{Ka*Am}/{Ac} < 1`
+* Puissance total d'un signal pt
+`pt = pc+pusb+plsb`
+* Puissance porteuse pc
+`pc = {pt}/{1+({m^2}/{2})}`
+* Puissance latéral inférieur et supérieur usb/lsb
 ```
-m = sqrt((P(t)/Pc)-1)*2
+pusb = plsb = {(m^2)/4}*pc
+pusb = plsb = {pt-pc}/{2}
 ```
-* Trouver bande fréquence d'émission (distance entre USB et LSB)
+* Bande de fréquence (distance entre usb et lsb)
+``bf = flsb-fsub``
+
+# Modulation FM
+* Variation fréquence  
+* Si Am faible alors fs lent
+* Si Am elevée alors fs rapide
+* Si Am = 0 alors fm = fc
+* Quand Am monte s(t) accélère
+* Quand Am descend, s(t) décélère
+* Indice de modulation m 
 ```
-Bande de fréquence = Fusb-Flsb
-```
-* Trouver Pusb | Plsb | Pp | Pt
-```
-Pt = Pc(1+(m**2/2))
-Pc = Pt/1,(m**2/2)
-Pusb = Plsb = ((m**2)/4)*Pc
-Pusb = Plsb = (Pt-Pc)/2
-```
-* Trouver Pssbtc
-```
-Pssbtc = Pc+Pusb
+B = {delta(fm)}/fm
+B = {k*Am}/fm
 ```
 
+# Demodulation
+* On obtient m(t) en multipliant s(t).*p(t)
