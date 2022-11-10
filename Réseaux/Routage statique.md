@@ -18,14 +18,17 @@
 -   Ajouter une route statique
 ```bash
 R1(config)#ip route @réseau_desti @masque_desti @ip_saut_suivant`
+R1(config)#ipv6 route @réseau_desti/@masque_desti @ip_saut_suivant`
 ```
 
 -   Afficher table de routage (les routes)
 ```bash
 R1#sh ip route`
+R1#sh ipv6 route`
 ```
 
 -   Ajouter une route statique par défaut
 ```bash
 R1(config)#ip route 0.0.0.0 0.0.0.0 @ip_saut_suivant`
+R1(config)#ipv6 route ::/0 @ip_saut_suivant`
 ```

@@ -75,71 +75,17 @@ R(config)#ipv6 unicast-routing
 ```
 * Activer IPv6
 ```
-R(config)#ipv6 enable
+R(config)#int G0/0/0
+R(config-if)#ipv6 enable
 ```
 * Attribuer adresse IPv6 à une interface
 ```
 R(config)#int @interface
-R(config-if)#ipv6 address @IP_reseau/@Masque eui-64
+R(config-if)#ipv6 address PREFIX/MASQUE
 ```
 * Attribuer adresse lien local à une interface
 ```
 R1(config)#interface @interface
 R1(config-if)#ipv6 address FE80::X link-local
 ```
-## II) Configuration IOS
-### 1) Adressage
-* Activer transmission IPv6
-```
-R(config)#ipv6 unicast-routing
-```
-* Activer IPv6
-```
-R(config)#ipv6 enable
-```
-* Attribuer adresse IPv6 à une interface
-```
-R(config)#int @interface
-R(config-if)#ipv6 address @IP_reseau/@Masque eui-64
-```
-* Attribuer adresse lien local à une interface
-```
-R1(config)#interface @interface
-R1(config-if)#ipv6 address FE80::X link-local
-```
-### 2)Routage
-* Créer et activer mode configuration RIP
-```
-R(config)#ipv6 router rip @nom
-```
-* Configurer protocole RIP sur interface
-```
-R(config)#int @interface
-R(config-if)#ipv6 rip @nom enable
-```
-* Attribuer adresse IPv6 à une interface
-```
-R(config)#int @interface
-R(config-if)#ipv6 address @IP_reseau/@Masque eui-64
-```
-* Attribuer adresse lien local à une interface
-```
-R1(config)#interface @interface
-R1(config-if)#ipv6 address FE80::X link-local
-```
-### 3) Exemple configuration de base
-```cisco
-ipv6 unicast-routing 
-ipv6 router rip RT0
 
-interface f0/1
-	ipv6 address 2001:db8:1:1::/64 eui-64
-	ipv6 rip RT0 enable
-interface f0/2
-	ipv6 address 2001:db8:1:2::/64 eui-64
-	ipv6 rip RT0 enable
-```
-### 4) IPV6 DNS
-```cisco
-A faire
-```

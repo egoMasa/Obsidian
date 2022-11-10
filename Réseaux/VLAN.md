@@ -121,31 +121,29 @@ SW(config-router)#network @reseau_adj @masque_invert
 # Exemple configuration SW3
 * 2 vlans
 ```
-hostname SW5
-
 ip routing
 
 no ip domain-lookup
 
 interface FastEthernet0/1
-switchport access vlan 20
-switchport mode access
+	switchport access vlan 20
+	switchport mode access
 
 interface FastEthernet0/24
-switchport access vlan 51
-switchport mode access
+	switchport access vlan 51
+	switchport mode access
 
 interface Vlan20
-ip address 10.5.20.2 255.255.255.0
+	ip address 10.5.20.2 255.255.255.0
 
 interface Vlan51
-ip address 10.5.51.2 255.255.255.0
+	ip address 10.5.51.2 255.255.255.0
 
 router ospf 51
-router-id 4.5.5.11
-network 10.5.51.0 0.0.0.255 area 0
-network 10.5.20.0 0.0.0.255 area 0
+	router-id 4.5.5.11
+	network 10.5.51.0 0.0.0.255 area 0
+	network 10.5.20.0 0.0.0.255 area 0
 
 line con 0
-logging synchronous
+	logging synchronous
 ```

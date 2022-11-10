@@ -38,3 +38,8 @@
 * Classe E = 240-255 (internet expérimental)
 
 ![[Pasted image 20220906221541.png]]
+
+### Adresses privées (portée locale)
+* 10.0.0.0 — 10.255.255.255  
+* 172.16.0.0 — 172.31.255.255   
+* 192.168.0.0 — 192.168.255.255
