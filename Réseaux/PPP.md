@@ -1,13 +1,17 @@
+# Guide PPP
 
+# 1) Généralités
+* ***PPP*** = Point To Point Protocol
+* Protocole utilisé lors d'une communication entre 2 équipements via une ***liaison série***. 
+* C'est le standard du "Remote Access"
+* Il supporte l'encryption et l'authentification
 * ETTD = DTE
 * ETCD = DCE	
 * `show interface serial`
 		* `down,down` = Pas branché
 		* `up,down` = Pas d'accord
 		* `admin down,down` = Shutdown
-
-* ***PPP*** = Point To Point Protocol
-
+# 2) LCP et NDP
 * ***Couche 2/3*** : 
 	* ***LCP (Link Control Protocol)***
 		* Etablir/Configurer/Tester connexion de liaison de données
@@ -26,6 +30,8 @@
 		* Encapsule et négocie des options pour les protocoles IP et IPX
 		* Quand process NCP terminé, la liaison passe à l'état ouvert et LCP prend le relais
 
+# 3) PAP et CHAP
+
 * ***Mécanisme d'authentifications*** : 
 	* ***PAP (Password Authentification Protocol)*** 
 		* Utilise un échange en 2 étapes pour établir connexion
@@ -36,6 +42,8 @@
 		* Vérification périodique
 		* Utilise une fonction de hachage unidirectionnelle
 		* Le mot de passe configuré avec nom utilisateur router doit être le même sur les deux routeurs
+
+# 4) Fonctionnement PPP
 
 * ***Services optionnels négociés par PPP*** :
 	* Authentification : PAP et CHAP
