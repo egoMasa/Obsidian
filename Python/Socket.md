@@ -1,12 +1,12 @@
 # Guide SOCKET python
 
 # Différence Synchrone et Asynchrone
-## Asynchrone : 
+## Synchrone : 
 * On attend que la tache A soit complément finie pour commencer la tache B
 * Données transférées sous forme d'octets ou caractères
 * Taux de transfert plus lent que en synchrone
 * Même manière que UDP avec envoi sans réception assuré
-## Synchrone : 
+## Asynchrone : 
 * On exécute plusieurs taches simultanément, on passer d'un vers l'autre
 * Données transférées sous forme de trames
 * Communication en temps réel
