@@ -18,6 +18,24 @@
 		* Routage via VTI distante dont l'IP appartient au même réseau VTI locale
 		* Interfaces VTI permettent de définir des routes passant par tunnel IPSec
 		* Agissent comme passerelles réciproques l'un l'autre (point d'entrée et de sortie du tunnel)
+## Phase d'authentification 
+* Durant l'authentification, chaque extrémité vérifie l'identité de l'autre. 
+	* 1) L'adresse IP du réseau externe (Firewall_out) si adresse fixe
+	* 2) Un FQDN si une extrémité ne possède pas d'adresse IP fixe (dynamique)
+* Selon la méthode d'authentification utilisée, l'identité peut être associé à :
+	* Une clé PSK : Chaque extrémité montrera une preuve quelle détient la PSK commune
+	* Une PKI : Chaque extrémité présentera un certificat numérique X509 signé par une autorité de certification de confiance.
+## Phase d'établissement d'un tunnel VPN IPSec
+* Phase 1 : 
+	* Les deux extrémités négocient un profil de chiffrement phase 1 avec dedans les algorithmes de chiffrement/authentification. 
+	* Les deux extrémités s'authentifie via PSK ou PKI. 
+	* Un dialogue d'application chiffré nommé ISAKMP-SA (IKEv1 ou PARENT-SA) est établi qui permet la négociation de la phase 2 qui sera chiffré via la clef ISAKMP-SA
+* Phase 2 : 
+	* Les deux extrémités négocient un profil de chiffrement phase 2 et pourront communiquer via le tunnel VPN IPSec
+	* Deux canaux sont ouverts pour la transmission de données (dans chaque direction)
+	* Chaque canal utilise une clef de chiffrement qui lui est propre (ESP-SA1 ou CHILD-SA1)
+	* Les deux extrémités possèdent les deux clefs symétriques, une qui chiffre, l'autre qui déchiffre.
+
 
 ## II) Familles de VPN
 * VPN SSL = Client nomade
