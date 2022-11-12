@@ -6,9 +6,26 @@
 * Il crypte les données lors de l'envoi et les décrypte lors de la réception.
 * Fournit une liaison spécialisée entre deux points sur l'internet
 * L'équipement "VPN Concentrateur" créer la connexion VPN et gère l'acheminement des messages entre les ordinateurs et les dispositifs VPN. Il authentifie les utilisateurs, crypte les données, et attribue des adresses IP de tunnel aux utilisateurs. Néanmoins il ne sont pas obligatoire on l'utilise que pour les grosses entreprises. On peut utiliser des logiciels VPN sur d'autres équipements qui assure d'autres taches comme un firewall ou un routeur
+* La négociation du tunnel s'effectue via le protocole ISAKMP (Internet Security Association Key Management Protocol) appelé aussi IKE (Internet Key Exchange) transmit via le protocole UDP sur le port 500
+* Les extrémités de trafic peuvent communiquer via le protocole ESP (Encapsuling Security Payload) qui assure la confidentialité et l'intégration des données. ESP est encapsulé directement dans un paquet IP
+* Deux modes de fonctionnement conditionnent la décision d'encapsuler les paquets IP dans ESP :
+	* Correspondance de politique (standard) :
+		* Concordance IP usagers avec politique VPN IPSec
+		* Critères IP source + IP destination
+		* Politique IPSec évaluée en amont des directives générales de routage IP. 
+		* Repose exclusivement sur correspondance de politique
+	* Virtual Tunneling Interface (si routage VTI activé)
+		* Routage via VTI distante dont l'IP appartient au même réseau VTI locale
+		* Interfaces VTI permettent de définir des routes passant par tunnel IPSec
+		* Agissent comme passerelles réciproques l'un l'autre (point d'entrée et de sortie du tunnel)
 
-## II) Types de VPN
-
+## II) Familles de VPN
+* VPN SSL = Client nomade
+* VPN IPsec = Site à site ou client à nomade
+	* Assure L'authentification via clé pré-partagée PSK ou par certificats PKI
+	* Assure l'intégrité : Vérifie données non modifiées en utilisant les algorithmes de hachage.
+	* Assure la confidentialité : Que les données ne peuvent être lues que par une personne tierce capturant le trafic
+	* Assure l'anti-rejeu : Permet d'ignorer des anciens paquets dont le numéro de séquence est antérieur à un certain seul déjà reçu, s'ils sont transmis à nouveau
 ### 1)Site-to-site
 * Communication entre 2 entreprises via Internet
 * Les données sont cryptés en entrée et décrypter en sortie
@@ -24,19 +41,19 @@
 ## III) Protocole VPN
 
 ### PPTP (Point-to-Point Tunneling Protocol)
-* Le plus ancien protocol 
+* Le plus ancien protocole 
 * Peu sécurisé 
-* Obselète
+* Obsolète
 
 ### L2TP/IPsec (Layer2 Tunneling Protocol)
 * Fonctionne par dessus IPsec (système de cléf)
 * Système de multi-authentification +  sécurisation et du chiffrement des données grace à IPsec
-* Possibilité d'un tunneling en mutli-threading et donc l'execution de plusieurs tâches sécurisées en simultané
+* Possibilité d'un tunneling en mutli-threading et donc l'exécution de plusieurs tâches sécurisées en simultané
 
 ### IKEv2 (Internet Key Exchange version 2)
-* Basé sur IPsec (système de cléf)
+* Basé sur IPsec (système de cléfs)
 * Identifie les deux bouts du tunnel IPsec
-* On l'utilise souvent sur mobile grace à sa gestion du passage d'un réseau wifi peu sécurisée vers le réseau de données mobiles
+* On l'utilise souvent sur mobile grâce à sa gestion du passage d'un réseau wifi peu sécurisée vers le réseau de données mobiles
 ### OpenVPN
 * Le plus populaire
 * Rapide et fiable
