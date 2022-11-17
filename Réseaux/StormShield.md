@@ -170,7 +170,12 @@ CONFIGURATION ⇒ UTILISATEURS ⇒ Authentification ⇒ onglet POLITIQUE D’AUT
 ```
 * Créer une règle d'authentification LDAP
 ## Politique d'authentification
+* Il faut indiquer une politique afin d'indiquer les méthodes en fonction des utilisateurs
+* 
 ## Règle de filtrage pour l'authentification
+* Pour rediriger les utilisateurs inconnus vers le portail captif. 
+* Il faut impérativement créer des règles pour laisser passer ce qui sont authentifiés.
+* 
 ## Définir nouveaux administrateur
 
 
