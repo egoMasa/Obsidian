@@ -45,74 +45,26 @@
 * Il faut mieux utiliser des routes statiques ou routes statiques par défaut
 
 # 3) Configuration 
-* Pour annoncer une route BGP il faut quelle soit impérativement déclarée au préalable dans la table de routage sinon BGP ne l'accepte pas.
+* Activer protocole BGP 
 ```
-	ip route
+R1(config)#router bgp @ASN
 ```
-* Entrer dans le mode configuration du BGP
+* Annoncer son réseau
 ```
-router bgp autonomous-system
+R1(config-rtr)#network @mon_reseau mask @masque
 ```
-* Activer session BGP avec voisins
+* Annoncer ses voisins (ASN)
 ```
-neighbor {ip-address | peer-groupe-name} remote-as autonomous-system
+R1(config-rtr)#neighbor @IP_ASN_VOISIN remote-as @ASN_voisin
 ```
-* Propager routes BGP
+* Modifier router-id BGP
 ```
-network {network-number} mask {network-mask}
+R1(config-rtr)#bgp router-id X.X.X.X
 ```
-* Exemple 
+* Exemple de configuration
 ```
-router bgp @num
-	network {mon_network}
-	neighbor {ip_saut} remote-as {num_ip_saut}
-	
-show ip bgp neighbors
-show ip bgp summary
-```
-* Activer BGP en mode IPV6 (BGP-MP)
-```
-no bgp default ipv4-unicast
-```
-* Etablir phase de peering
-```
-neighbor <@IPv6> remote-as
-```
-* Configurer adresse de famille
-```
-address-family ipv6
-```
-* Activer peers voisins
-```
-neighbor <@IPv6> activate
-```
-* Annoncer des routes 
-```
-network {network-number/XX}
-```
-* Terminaison de l’adresse family
-```
-exit-address-family
-```
-* Configurer BGP
-```
-router bgp @ASN_SA_ZONE
-	network @mon_reseau_interne
-	neighbor @ip_saut remote-as @ASN_cible
-```
-* Exemple 
-```
-router bgp 1 
-	bgp router-id 1.1.1.1 
-	no bgp default ipv4-unicast 
-	bgp log-neighbor-changes 
-	neighbor 2010:AB8:0:2::2 remote-as 2 ! 
-	address-family ipv6 
-		neighbor 2010:AB8:0:2::2 activate 
-		network 2010:AB8:2::/48 
-		network 2010:AB8:3::/48 
-		exit-address-family
-		
-show ip bgp neighbors
-show bgp ipv6 unicast summary
+R1(config)#router bgp 65329
+R1(config-rtr)#bgp router-id 1.1.1.1
+R1(config-rtr)#network 192.168.1.0 mask 255.255.255.0
+R1(config-rtr)#neighbor 10.0.0.0 remote-as 65330
 ```

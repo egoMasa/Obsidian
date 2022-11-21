@@ -66,22 +66,33 @@
 	```
 
 # Commande IOS
-* Configurer nom d'utilisateur et le mot de passe
+* De base l'encapsulation sur liaisons séries est ***HDLC***
 ```
-username Router2 password cisco
-username Router1 password cisco
+sh ip int S0/0/1
+>>encapsulation hdlc
 ```
-* Passer en mode configuration interface
+* Activer encapsulation ***PPP*** sur chaque interface séries
 ```
-interface serial 0/1/0
+R1(config)#int S0/0/0
+R1(config-if)#encapsulation ppp
 ```
-* Spécifier le type d'encapsulation
+* Créer ***compte de connexion*** PPP sur routeur pour chaque voisins PPP
 ```
-encapsulation ppp
-encapsulation hdlc
+R1(config)#username @HOSTNAME_VOISIN password @mot_de_passe
 ```
-* Configuration de l'authentification
+* Activer authentification ***CHAP***
 ```
-ppp authentification pap
-ppp authentification chap
+R1(config-if)#ppp authentification chap
+```
+* Activer authentification ***CHAP*** (les logs que je vais envoyer vers le routeur voisin)
+```
+R1(config-if)#ppp pap sent-username @HOSTNAME password @MON_MP
+```
+* Exemple configuration complète
+```
+R1(config)#username R2 password cisco
+R1(config)#int S0/0/0
+R1(config-if)#encapsulation ppp
+R1(config-if)#ppp authentification chap
+R1(config-if)#ppp pap sent-username R1 password cisco
 ```
