@@ -2,29 +2,6 @@
 
 * C'est une librairie qui permet de créer une ***interface graphique*** d'une application avec python
 * Kivy est compatible avec IOS/Android grace au moteur graphique ***OpenGL ES 2***
-# Installer kivy sur Windows
-* Créer un répertoire pour l'environnement virtuel
-```
-mkdir kivy
-```
-* Créer l'environnement virtuel dans le dossier créé
-```
-cd kivygui/
-python -m venv virt
-```
-* Activer environnement virtuel
-```
-source virt/Scripts/activate
-```
-* Vérifier paquets installer dans l'environnement virtuel (vide)
-```
-pip freeze
-```
-* Installer kivy
-```
-python -m pip install "kivy[full]" kivy_examples
-```
-
 
 # Utilisation de kivy
 * Importer le module et ses classes
@@ -326,10 +303,44 @@ class MainApp(App):
 		img = Image(source='logo.png',size_hint(.1,.5),pos_hint={'center_x':.5,'center_y':.5})
 		return img
 		
-		 
-
 if __name__ == '__main__': 
 	app = MainApp()
 	app.run()
-	
+```
+
+# Centrer un élément :
+```python
+pos_hint={'center_x':0.5, 'center_y':0.5}
+color: red,green,blue,opacity --> 0-1
+background_color: (0/255, 255/255, 255/255, 1) --> Uniquement sur TextInput et Button
+font_size: 45
+```
+* Modifier backgroundcolor de la fenetre
+```
+Window.clearcolor = (255/255.0, 255/255.0, 255/255.0)
+```
+* Modifier background color d'un label :
+```
+Label:
+	text: "Votre taille:"
+	color: "#2BE5CE"
+    canvas.before:
+    Color:
+		rgba: 0, 1, 1, 1 
+	Rectangle:
+		pos: self.pos
+		size: self.size
+```
+* Créer button avec angle 
+```
+<RoundedButton@Button>
+    background_color: (0,0,0,0)
+    background_normal: ''
+    canvas.before:
+        Color:
+            rgba: (0/255,255/255,255/255,1)
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [58]
 ```
