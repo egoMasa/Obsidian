@@ -14,11 +14,32 @@ int G0/0/0
 	ipv6 ospf 1 area 0
 	ipv6 ospf priority 20
 	ipv6 ospf cost 20
+
 	
 sh ipv6 route ospf
 sh ipv6 ospf neighbor
 sh ipv6 int brief
-
+```
+* Multizone OSPFv3
+```
+ipv6 unicast-routing
+ipv6 router ospf 1
+	router-id X.X.X.X
+int G0/0
+	ipv6 ospf 1 area @area_reseau_voisin_interface
+```
+* Commande de vérification
+```
+show ipv6 ospf
+show ipv6 route
+show ipv6 ospf database
+show ipv6 ospf interface
+show ipv6 ospf neighbor
+```
+* Résumé de route (à l'intérieur du processus, en multizone seulement)
+```
+ipv6 router ospf 
+	area X range @route_resumée
 ```
 # 2) EIGRP
 * Adjacences via ***link-local*** 

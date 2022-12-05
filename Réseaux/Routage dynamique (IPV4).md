@@ -81,33 +81,61 @@ R1(config-router)#passive-interface @interface
 ### Commandes OSPF :
 
 -   Activer OSPF sur le routeur
-```bash
+```
 R1(config)#router ospf @ID
 ```
 
 -   Annoncer un réseau voisin
-```bash
+```
 R1(config-router)#network @ip_reseau_voisin @masque_inverse area @area`
 ```
 
 -   Changer priorité de l’interface routeur
-```bash
+```
 R1(config-router)#ip ospf priority <0-255>
 ```
 
 -   Changer ID du router
-```bash
+```
 R1(config-router)#router-id @IP
 ```
 
 -   Partager route par statique/defaut
-```bash
+```
 R1(config-router)#default-information originate
 ```
 
 -   Empêcher interface de partager mise à jour de la table
-```bash
+```
 R1(config-router)#passive-interface @interface
+```
+
+
+
+## Multizone
+* On effectue un routage précis selon une zone délimitée afin de limiter les changement de topologies
+* ***LSA***  = Link State Advertisement : Maintenir topologie commune : Envoie de MAJ
+	* 1,2 dans une zone
+	* 3
+* ***SPF*** = Shortest Path First : Algorithme, on cherche à reduire sa fréquence de calcul
+* ***LSDB*** : Link State Data Base
+* ***ABR*** = Area Border Router : Router entre 2 zones dont la BackBone
+* ***ASBR*** = Autonomous System Border Router : Avec BGP
+* Réduire table de routage
+* ***LSU*** = Link State Update
+* LSR = Link State Request
+* IA = Inside Area
+* On doit forcement garder une zone backbone 0 avec les routeurs les plus puissants car ils ont accès à toutes les tables de chaque zones (centralise)
+* Exemple de configuration
+```
+router ospf 1
+	router-id X.X.X.X
+	network @ip_voisin @masque_voisin_invert area @area_ip_voisin
+```
+* Résumé de route (à l'intérieur du processus, en multizone seulement)
+```
+router ospf 1
+	area X range @route_resumée
 ```
 
 
@@ -164,4 +192,9 @@ R1(config-if)#ip hold-time eigrp @instance @secondes
 * Modifier métrique interface 
 ```bash
 R1(config-if)#bandwidth @num
+```
+* Résume de route
+```
+R1(config)# int G0/0/0
+R1(config-if)#ip summary-address ...
 ```

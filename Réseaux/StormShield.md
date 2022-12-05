@@ -1,6 +1,162 @@
 # Guide StormShield CSNA
 
+# 0) Introduction
+* On placera les ***serveurs publics*** (web, ftp, mail, etc.) dans la ***DMZ***
+* Le firewall Stormshield peut servir de serveur DHCP pour les machines du réseau local
+* On doit se connecter sur une interface interne
+	* HTTPS (443/TCP)
+* On peut modifier le port SSH (22/TCP)
+* Active Update interroge les srvs de MAJ
+* Caractéristiques de la configuration d'usine :
+	* Un serveur DHCP est actif sur les interfaces du brige et distribue un pool compris entre : 10.0.0.10-10.0.0.100
+	* La configuration réseau est en mode transparent (Bridge)
+* Tous les Firewall Stormshield disposent d'un port Ethernet Gigabit
+* Avec la RGPD, seul le super administrateur "admin" peut accéder aux logs complets en cliquant sur "Accès Restreint aux logs"
+* Toutes les interfaces sont réunies dans un bridge ayant l'adresse 10.0.0.254/8
+* La première interface du firewall est nommée « OUT », la deuxième est est "IN"
+* Le nom du firewall est son numéro de série
+
+# 1) Traces et supervision
+
+## Catégorie de traces
+* On a 4 catégorie de traces 
+	* PROXY
+		* POP3
+		* SMTP
+		* FTP
+		* SSL
+		* HTTP
+	* Connexion
+		* Réseaux
+		* Applicatives
+		* Authentification
+		* Politique de filtrage
+	* VPN
+		* IPsec
+		* SSL
+	* Système
+		* Administration
+		* Evenements
+	* Sécurité et usage
+		* Stats
+		* Vulnérabilités
+		* Alarmes
+		* SandBoxing
+
+## Configuration des traces
+
+* On peut configurer l'enregistrement de ces événements
+	* Activer/Désactiver l'enregistrement
+	* Sélectionner le support de stockage
+	* Actualiser
+	* Formater
+	* Espace réserver par catégorie
+	* 
+# 0) Objets
+
+## Généralités
+* Les objets commençant par ***Network_*** ne sont pas modifiables
+* L'équivalent de ***Internet*** est ***Différent de Network_Internals***
+* On peut éditer une catégorie d'URL pour lire son contenu 
+* Les objets routeurs sont utilisées pour :
+	* Le routage par défaut
+	* Le routage par politique
+* Les objets Routeur permettent de : 
+	* Tester la disponibilité des passerelles
+	* Configurer un routage avec répartition de charge sur plusieurs passerelles
+* Le nom d'un objet peut :
+	* Contenir nombres de caractères illimités
+	* Commencer par un chiffre
+	* Etre un nom de domaine
+
+# 0) Réseau
+
+## Modes de configuration
+
+* 3 Modes de configuration
+	* Transparent/Bridge (On ne différencie pas les réseaux)
+	* Avancé/Routeur (On différencie chaque réseau)
+		* Gère plusieurs réseaux logiques 
+		* Segmentation du réseau aux niveaux logique et physique
+		* On doit gérer un PAT pour accéder à internet sur l'interface OUT
+	* Hybride (On différencie uniquement le OUT ou inversement)
+		* Plusieurs interfaces dans un bridge
+		* Autres interfaces indépendantes du bridge
+		* 
+## Type d'interfaces
+* 5 types d'interfaces sir le FW
+	* ***Physique*** : Dépend du modèle
+	* ***Bridge*** (nv 2) : Association de plusieurs interfaces physique ou VLAN
+	* ***VLAN*** : Nombre max dépend du modele
+	* ***Modem*** : Connexion entre FW et un modem (ADSL)
+		* Connexion possibles sous PPPoe et PPTP
+	* ***GRETAP*** : Encapsulation qui relie 2 réseaux distants au niveau 2 (bridge)
+	* ***LAGG*** : 8 Max
+* 2 type de protection
+	* ***Interne*** : Protégée et n'accepte que les paquets provenant d'un plan connu (directement co ou via route statique)
+	* Externe : Publique et non protégée, peut recevoir des paquets de n'importe qui, on l'utilise pour connecter le firewall à Internet
+
+## Routage système
+* Par défaut : Si trafic ne correspond à aucunes routes dans la table de routage
+	* NETWORK/ROUTING/IPV4 STATIC ROUTE
+* Statique : Renseigne manuellement la passerelle vers un réseau distant
+	* NETWORK/ROUTING/IPV4 STATIC ROUTE
+		* Réseau/GW/Interface_sortie_vers_gw
+
+## Routage avancée
+* Dynamique
+	* BIRD : Logiciel qui met en œuvre le routage dynamique
+		* RIP
+		* BGP
+		* OSPF
+	* Politique (Policy Based Routing PRB)
+		* Spécifie la GW dans règle de filtrage
+		* Flux spécifié envoyé vers GW choisie
+* Répartition de charge
+	* Répartir connexions sortantes vers différentes GW
+	* Soit équitable ou pondérée avec pourcentage du trafic global
+	* Basé soit sur l'IP source ou les paramètres de connexions
+* Passerelles de secours
+	* Cas où une passerelle ne fonctionne pas
+	* 64 passerelles de secours maximum
+* Route de retour
+	* Spécifier l'interface de sortie pour atteindre GW distante
+	* Force le flux sortant d'un connexion entrante à repasser via l'interface d'entrée de connexion
+	* Forcer le flux à reprendre la même route que par là où il est rentré
+
+## Ordonnance des types de routages
+* Ordre de priorité
+	* 1) Route de retour
+	* 2) Routage par politique
+	* 3) Routage statique
+	* 4) Routage dynamique
+	* 5) Routage par défaut
 # 1) Translation d'adresses NAT
+## Généralités
+## Translation dynamique
+* Une seule IP publique (pub_fw) pour le réseau privé
+* Une machine est précise prend un port précis [20000-59999] de l'unique adresse publique
+* Choix du port de façon séquentiel
+## Translation statique par port
+* Externaliser les serveurs LAN sur l'IP publique du FW et un port précis et relier à un serveur
+## Translation statique
+* Une seule IP publique pour chaque serveur interne
+## Menu NAT
+* `SECURITY POLICY/FILTER-NAT`
+* ***Translation dynamique 
+	* Nouvelle Règle / Règle de partage d'adresse source (masquerading)
+* ***Translation statique par port***
+	* Règle standard
+		* Source : Internet
+		* Destination_original : pub_fw port 80
+		* Destination_after : srv_web_priv
+* Translation statique
+	* Nouvelle règle / Règle de NAT statique (bimap)
+		* On créer un objet srv_pub et srv_priv
+
+## Ordre d'application des règles
+
+## Avancées
 
 # 2) Filtrage 
 ## Généralités
@@ -23,12 +179,12 @@
 * Si on autorise un communication de A vers B, implicitement la communication de B vers A est autorisé. Donc il nous faut une règle seulement pour autoriser la requête et la réponse
 ## Ordonnance du filtrage et de translation
 * Priorité des règles pour un paquet initiale
-	* 0) ***Filtrage implicite*** : Préconfigurés, ajout dynamique
-	* 1) ***Filtrage global*** : Depuis menu SMC (StormShield Management Server)
-	* 2) ***Filtrage local*** : Depuis l'interface d'administration 
-	* 3) ***NAT implicite*** : Dynamiquement par le Firewall
-	* 4) ***NAT global*** : Depuis menu SMC (StormShield Management Server)
-	* 5) ***NAT local*** : Depuis l'interface d'administration 
+	* 1) ***Filtrage implicite*** : Préconfigurés, ajout dynamique
+	* 2) ***Filtrage global*** : Depuis menu SMC (StormShield Management Server)
+	* 3) ***Filtrage local*** : Depuis l'interface d'administration 
+	* 4) ***NAT implicite*** : Dynamiquement par le Firewall
+	* 5) ***NAT global*** : Depuis menu SMC (StormShield Management Server)
+	* 6) ***NAT local*** : Depuis l'interface d'administration 
 ## Menu
 * Accéder aux règles implicites
 ```
@@ -175,10 +331,6 @@ CONFIGURATION ⇒ UTILISATEURS ⇒ Authentification ⇒ onglet POLITIQUE D’AUT
 ## Règle de filtrage pour l'authentification
 * Pour rediriger les utilisateurs inconnus vers le portail captif. 
 * Il faut impérativement créer des règles pour laisser passer ce qui sont authentifiés.
-* 
-## Définir nouveaux administrateur
-
-
 
 # 4) IPSEC
 Voir VPN

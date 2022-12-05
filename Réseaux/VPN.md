@@ -18,14 +18,14 @@
 		* Routage via VTI distante dont l'IP appartient au même réseau VTI locale
 		* Interfaces VTI permettent de définir des routes passant par tunnel IPSec
 		* Agissent comme passerelles réciproques l'un l'autre (point d'entrée et de sortie du tunnel)
-## Phase d'authentification 
+### Phase d'authentification 
 * Durant l'authentification, chaque extrémité vérifie l'identité de l'autre. 
 	* 1) L'adresse IP du réseau externe (Firewall_out) si adresse fixe
 	* 2) Un FQDN si une extrémité ne possède pas d'adresse IP fixe (dynamique)
 * Selon la méthode d'authentification utilisée, l'identité peut être associé à :
 	* Une clé PSK : Chaque extrémité montrera une preuve quelle détient la PSK commune
 	* Une PKI : Chaque extrémité présentera un certificat numérique X509 signé par une autorité de certification de confiance.
-## Phase d'établissement d'un tunnel VPN IPSec
+### Phase d'établissement d'un tunnel VPN IPSec
 * Phase 1 : 
 	* Les deux extrémités négocient un profil de chiffrement phase 1 avec dedans les algorithmes de chiffrement/authentification. 
 	* Les deux extrémités s'authentifie via PSK ou PKI. 
@@ -51,10 +51,12 @@
 ### 2)Host-to-site
 * Communication entre client et une entreprise via Internet
 * Les données sont cryptés après que le client soit connecter au VPN 
+* WebVPN, ClientVPN
 
 ### 3)Host-to-Host
 * Communication entre 2 clients via Internet
 * Pas besoins d'équipement réseau supplémentaire mais juste un logiciel VPN
+* Tunnel SSH, HTTPS, etc
 
 ## III) Protocole VPN
 
@@ -76,3 +78,34 @@
 * Le plus populaire
 * Rapide et fiable
 * Utilisent majoritairement AES 256 bits pour la méthode chiffrement
+
+# IV) VRF (Virtual Routing and Forwarding)
+
+* Segmenter un routeur en plusieurs couche (toujours sur le même)
+* Meme principe qu'un VLAN 
+
+## Commandes 
+* Créer les VRF
+```
+ip vrf @nom_vrf
+	description @desc
+```
+* Associer VRF à une interface
+```
+int G0/0
+	ip vrf forwading @nom_vrf
+	ip address ...
+```
+* Configurer protocole de routage associé à une VFR
+```
+router ospf 1 vrf @nom_vrf
+```
+* Configurer route statique
+```
+ip route vrf @nom_vrf @reseau_desti @masque @saut
+```
+* Verification
+```
+sh ip route vrf @nom_vrf
+ping vrf @nom_vrf @ip
+```
