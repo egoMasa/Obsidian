@@ -1,3 +1,7 @@
+# Guide VRF
+* Une VRF est une technologie similaire au VLAN mais sur la couche 3
+* Il permet de segmenter un routeur en plusieurs sous chemins, isoler par rapport aux autres
+
 # 1) Création et assignation
 
 * Création des VRF
