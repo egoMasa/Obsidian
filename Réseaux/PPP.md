@@ -3,6 +3,8 @@
 # 1) Généralités
 * ***PPP*** = Point To Point Protocol
 * Protocole utilisé lors d'une communication entre 2 équipements via une ***liaison série***. 
+* Assure l'échange de données de manière fiable sur une liaison point à point
+* Permet à plusieurs **protocoles** de transférer des données simultanément.
 * C'est le standard du "Remote Access"
 * Il supporte l'encryption et l'authentification
 * ETTD = DTE

@@ -1,19 +1,15 @@
 # Guide MPLS
 
-# 1) Généralités
+# 1) Principe MPLS
 * MPLS = ***Multiprotocol Label Switching***
+* Réseau privé et sécurisé de bout en bout
+* Ne transite pas par Internet et permet une gestion **centralisée** et **simplifiée** du réseau via un opérateur qui supervise et maintient l’ensemble.
 * Intérêts
+	* Garantir une QoS excellente
 	* Optimise et fluidifie le trafic réseau
 	* Mise en place facile VPN grande échelle
 * Permet de perdre moins de temps à chercher dans les tables de routage
 * Acheminement des paquets par ***commutation*** plutôt que par routage
-* Utilise un ***système d'étiquetage*** (flag) des paquets afin de ***séparer différents type de trafic*** au sein du réseau MPLS
-	* Voix
-	* Video
-	* Email
-	* VPN
-* Les routeurs regarde le ***label de destination*** afin de savoir quel chemin prendre
-* Le label est choisi par rapport à la ***destination du paquet***
 * ***3 types*** de routeurs
 	* ***CE (Customer Edge)*** 
 		* En dehors du nuage MPLS
@@ -29,13 +25,43 @@
 		* Commute les paquets labelisés grâce à sa table de label LIB (Label Information Base)
 		* Il modifie le label de sortie en fonction de label d'entrée à partir de sa table de label ()
 
-## VPN MPLS
-* Permet de ***séparer flux VPN*** par utilisateur ou section
-* Paquets MPLS constituer de ***2 labels*** (au lieu d'un comme précédemment)
-	* ***Label extérieur*** : Identifie le chemin vers la destination comme précédemment, il est modifié lors de la commutation avec les Providers
-	* ***Label intérieur*** : Spécifie le numéro du VPN attribué au client, il n'est jamais modifié
-	* C'est le ***PE source*** qui applique ces deux labels au paquet lorsqu'un VPN MPLS est utilisé
---- 
+# 2) Système d'étiquetage des paquets (flag)
+* Utilise un ***système d'étiquetage*** (flag) des paquets afin de ***séparer différents type de trafic*** au sein du réseau MPLS
+	* Voix
+	* Video
+	* Email
+	* VPN
+* Les routeurs regarde le ***label de destination*** afin de savoir quel chemin prendre
+* Le label est choisi par rapport à la ***destination du paquet***
+
+## 1) Entrée du paquet dans le réseau MPLS
+* 1) ***Paquet IP qui arrive au porte du nuage MPLS*** via routeur ***PE***
+* 2) Le ***protocole routage IP du paquet*** est déterminé
+* 3) A partir de l ****'IP de destination du paquet***, on ***assigne un label*** ainsi que le ***routeur du prochain saut*** afin d'atteindre la destination
+* 4) Ajout de ***l'en-tête(label)***
+* 5) Envoi vers le ***nœud suivant*** (routeur)
+* Exemple table FEC sur routeur PE
+```
+InPort | IP_DESTI | Label_attribué | Saut_routeur
+   P1   193.48.1.35       L5             P2
+```
+
+## 2) Commutation du paquet étiqueté dans le réseau MPLS via routeur P
+* 1) Paquet IP étiqueté arrive au routeur P ou LSR (pareil)
+* 2) Protocole de routage déterminé à partir de la LIB (table de labels commun, partagé)
+* 3) Modification de la valeur du label
+* 4) Envoi du paquet avec étiquète vers routeur suivants
+* Exemple table LIB sur routeur P
+```
+InPort | InLabel | Saut_routeur | OutLabel
+  P1       L5           P3           L21
+```
+
+## 3) Arrivée du paquet à destination
+* 1) Paquet IP labelisé arrive au routeur de sortie PE
+* 2) Retrait du label et transmission du paquet IP dans le réseau de destination (LAN) au niveau de la couche réseau
+![[MPLS_1.png]]
+# 3) Glossaire
 * ***LSR*** (Label Switch Router)
 	* Routeur avec fonctionnalités MPLS
 		* Routeurs de ***cœur LSR ***
@@ -56,7 +82,8 @@
 	* Extraite de la LIB
 	* Table de commutation
 	* Label local | Label de sortie | Préfixe | Interface de sortie | Saut 
-# 2) Commandes
+
+# 4) Commandes
 * Activer MPLS
 ```
 ip cef
@@ -75,7 +102,12 @@ sh mpls forwarding-table
 sh mpls ldp bindings
 ```
 
-# VPN MPLS
+# 5) VPN MPLS
+* Permet de ***séparer flux VPN*** par utilisateur ou section
+* Paquets MPLS constituer de ***2 labels*** (au lieu d'un comme précédemment)
+	* ***Label extérieur*** : Identifie le chemin vers la destination comme précédemment, il est modifié lors de la commutation avec les Providers
+	* ***Label intérieur*** : Spécifie le numéro du VPN attribué au client, il n'est jamais modifié
+	* C'est le ***PE source*** qui applique ces deux labels au paquet lorsqu'un VPN MPLS est utilisé
 * ***Routeur CE*** (Customer Edge) = Routeur externe client relie à un PE
 	* Ne connait pas MPLS 
 	* Ne connait pas l'existence du VPN

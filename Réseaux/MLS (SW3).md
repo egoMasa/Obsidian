@@ -1,4 +1,3 @@
-* MultiLayerSwitch (LVL3)
 
 ## Configuration 
 

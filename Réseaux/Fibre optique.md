@@ -25,10 +25,10 @@
 	* Constitution
 		* Gros noyaux : 50-62,5 microns
 		* Enveloppe en verre : 125 microns de diamètres
-		* Revetement
-	* Utilisation émetteurs LED peu couteux
-	* Lumière qui entre sous différents angles
-	* Utilisé dans les réseaux LAN
+		* Revêtement
+	* Utilisation émetteurs diode électroluminescente peu couteuse
+	* Rayons lumineux avec trajets différents suivant angle de réfraction, donc arrivée décalée potentielle
+	* Utilisé dans les réseaux LAN (courte distance)
 	* Bande passante max : 10GBit/s
 	* Distance max : 550m
 # Connecteurs (embout)
