@@ -3,6 +3,7 @@
 ## I) Principe et explication
 
 * Un VPN est un réseau de communication privé qui utilise un réseau public (tel que l'internet) pour établir une connexion à distance
+* Un VPN est utilisé pour créer une connexion sécurisée entre deux ordinateurs ou réseaux distants, afin de permettre aux utilisateurs de partager des données ou d'accéder à des ressources en toute sécurité
 * Il crypte les données lors de l'envoi et les décrypte lors de la réception.
 * Fournit une liaison spécialisée entre deux points sur l'internet
 * L'équipement "VPN Concentrateur" créer la connexion VPN et gère l'acheminement des messages entre les ordinateurs et les dispositifs VPN. Il authentifie les utilisateurs, crypte les données, et attribue des adresses IP de tunnel aux utilisateurs. Néanmoins il ne sont pas obligatoire on l'utilise que pour les grosses entreprises. On peut utiliser des logiciels VPN sur d'autres équipements qui assure d'autres taches comme un firewall ou un routeur
@@ -37,44 +38,113 @@
 	* Les deux extrémités possèdent les deux clefs symétriques, une qui chiffre, l'autre qui déchiffre.
 
 
-## II) Familles de VPN
-* VPN SSL = Client nomade
-* VPN IPsec = Site à site ou client à nomade
-	* Assure L'authentification via clé pré-partagée PSK ou par certificats PKI
-	* Assure l'intégrité : Vérifie données non modifiées en utilisant les algorithmes de hachage.
-	* Assure la confidentialité : Que les données ne peuvent être lues que par une personne tierce capturant le trafic
-	* Assure l'anti-rejeu : Permet d'ignorer des anciens paquets dont le numéro de séquence est antérieur à un certain seul déjà reçu, s'ils sont transmis à nouveau
-### 1)Site-to-site
-* Communication entre 2 entreprises via Internet
-* Les données sont cryptés en entrée et décrypter en sortie
+# II) Différents types de VPN (SSL/IPSEC/MPLS)
 
-### 2)Host-to-site
-* Communication entre client et une entreprise via Internet
-* Les données sont cryptés après que le client soit connecter au VPN 
-* WebVPN, ClientVPN
+## 1) VPN SSL (Secure Sockets Layer)
+* Le protocole SSL utilise le chiffrement ***SSL/TLS*** pour sécuriser les données qui transitent sur le réseau.
+* Le protocole SSL s'exécute au niveau de la ***couche de transport*** (couche 4 du modèle OSI) et ne nécessite pas de logiciel client spécial pour être utilisé.
+* Le protocole SSL est généralement plus compatible avec les différents systèmes d'exploitation et navigateurs web, ce qui le rend plus facile à utiliser.
+* Fonctionnement VPN SSL
+	* 1.  Lorsqu'un utilisateur veut se connecter à un réseau VPN SSL, il envoie une requête au serveur VPN.
+	* 2.  Le serveur VPN vérifie l'identité de l'utilisateur et envoie une réponse de connexion sécurisée au client.
+	* 3.  Le client utilise le protocole SSL pour établir une connexion sécurisée avec le serveur VPN.
+	* 4.  Une fois la connexion établie, toutes les communications entre le client et le serveur VPN sont chiffrées et sécurisées grâce au protocole SSL.
+* Permet aux utilisateurs de se connecter à un réseau d'entreprise de manière sécurisée depuis n'importe où
 
-### 3)Host-to-Host
-* Communication entre 2 clients via Internet
-* Pas besoins d'équipement réseau supplémentaire mais juste un logiciel VPN
-* Tunnel SSH, HTTPS, etc
+### Précision sur SSL
+* Protocole de sécurité qui permet de sécuriser les communications sur Internet en chiffrant les données qui transitent entre un client et un serveur.
+* Fonctionnement du protocole SSL
+	* 1.  Lorsqu'un utilisateur veut accéder à un site Web sécurisé via SSL, il envoie une requête au serveur Web.
+	* 2.  Le serveur Web envoie au client une copie de son certificat SSL, qui contient des informations de chiffrement et d'authentification.
+	* 3.  Le client vérifie l'authenticité du certificat SSL et envoie une réponse au serveur Web.
+	* 4.  Le serveur Web envoie une clé de chiffrement au client.
+	* 5.  Le client utilise la clé de chiffrement pour chiffrer toutes les communications qu'il envoie au serveur Web.
+	* 6.  Le serveur Web déchiffre les communications en utilisant la même clé de chiffrement.
 
-## III) Protocole VPN
+## 2) VPN IPsec (Internet Protocol Security) 
+* Le protocole IPsec utilise un ensemble de protocoles de chiffrement pour sécuriser les données, notamment :
+	* ***AH*** (Authentication Header) 
+	* ***ESP*** (Encapsulating Security Payload)
+* Le protocole IPsec s'exécute au niveau de la couche réseau (couche 3 du modèle OSI) et nécessite généralement l'installation d'un logiciel client spécial sur les ordinateurs qui souhaitent se connecter au réseau VPN.
+* Le protocole IPsec peut être plus difficile à configurer et à utiliser sur certains systèmes d'exploitation et navigateurs web.
+* Le protocole IPsec est généralement considéré comme plus sécurisé que le protocole SSL car il utilise un ensemble de protocoles de chiffrement plus complet.
 
-### PPTP (Point-to-Point Tunneling Protocol)
+### Précision sur IPsec
+* Protocole de sécurité qui permet de sécuriser les communications sur un réseau privé virtuel (VPN) ou sur Internet
+* S'exécute au niveau de la couche réseau (couche 3 du modèle OSI)
+* Utilise un ensemble de protocoles de chiffrement pour sécuriser les données qui transitent sur le réseau
+	* ***AH*** (Authentication Header) 
+	* ***ESP*** (Encapsulating Security Payload)
+* Fonctionne en associant une paire de clés de chiffrement à chaque paquet de données qui transitent sur le réseau.
+* Les clés de chiffrement sont utilisées pour chiffrer et déchiffrer les données
+* Les ordinateurs qui souhaitent se connecter au réseau VPN doivent être configurés avec un logiciel client IPsec spécial qui gère la génération et l'échange des clés de chiffrement, ainsi que la gestion des communications sécurisées sur le réseau VPN.
+
+### Précision sur AH
+* Fait partie du protocole IPsec
+* S'exécute au niveau de la couche de réseau (couche 3 du modèle OSI)
+* Permet de sécuriser les communications sur un réseau privé virtuel (VPN) ou sur Internet.
+* Fonctionne en ajoutant une en-tête d'authentification aux paquets de données qui transitent sur le réseau.
+	* Informations d'authentification qui permettent de vérifier l'intégrité des données
+	* Protéger contre la modification ou la suppression non autorisée des données
+* Le protocole AH s'occupe de l'authentification des données tandis que le protocole ESP s'occupe du chiffrement et de la déchiffrement des données.
+* Le protocole AH ne s'occupe pas du chiffrement des données !
+* Utilisation du protocole AH
+	* 1.  Lorsqu'un paquet de données arrive sur le réseau VPN ou sur Internet, il est acheminé vers le routeur ou le pare-feu qui gère la connexion VPN.
+	* 2.  Le routeur ou le pare-feu analyse le paquet de données et utilise le protocole AH pour ajouter une en-tête d'authentification au paquet de données. Cette en-tête contient des informations d'authentification qui permettent de vérifier l'intégrité des données et de protéger contre la modification ou la suppression non autorisée des données.
+	* 3.  Le paquet de données modifié est envoyé au prochain routeur ou pare-feu sur le chemin de la destination finale.
+	* 4.  Lorsque le paquet de données arrive à sa destination finale, le routeur ou le pare-feu de destination vérifie les informations d'authentification de l'en-tête AH pour s'assurer que les données n'ont pas été modifiées ou supprimées en cours de route. Si les informations d'authentification sont correctes, le paquet de données est envoyé au destinataire final.
+
+### Précision sur ESP
+* Fait partie du protocole IPsec
+* S'exécute au niveau de la couche de réseau (couche 3 du modèle OSI)
+* Permet de sécuriser les communications sur un réseau privé virtuel (VPN) ou sur Internet.
+* Fonctionne en encapsulant les paquets de données qui transitent sur le réseau dans un paquet ESP sécurisé.
+	* Contient des informations de chiffrement
+	* Permettent de chiffrer et de déchiffrer les données
+	* Informations d'authentification pour vérifier l'intégrité des données
+* Souvent utilisé conjointement avec le protocole AH
+* Utilisation du protocole ESP
+	* 1.  Lorsqu'un paquet de données arrive sur le réseau VPN ou sur Internet, il est acheminé vers le routeur ou le pare-feu qui gère la connexion VPN.
+	* 2.  Le routeur ou le pare-feu analyse le paquet de données et utilise le protocole ESP pour encapsuler le paquet de données dans un paquet ESP sécurisé. Ce paquet ESP contient des informations de chiffrement qui permettent de chiffrer et de déchiffrer les données, ainsi que des informations d'authentification qui permettent de vérifier l'intégrité des données.
+	* 3.  Le paquet ESP est envoyé au prochain routeur ou pare-feu sur le chemin de la destination finale.
+	* 4.  Lorsque le paquet ESP arrive à sa destination finale, il est déchiffré et analysé par le routeur ou le pare-feu de destination. Si les informations d'authentification sont correctes, le paquet de données est envoyé au destinataire final.
+
+## 3) VPN MPLS
+* Type de réseau privé virtuel qui utilise le protocole MPLS pour acheminer les données entre les différents sites d'une organisation.
+* Voici comment un VPN MPLS fonctionne en détail :
+	* 1.  Les données sont acheminées entre les sites d'une organisation via un réseau MPLS privé qui est géré par un fournisseur de services.
+	* 2.  Les données sont acheminées sur le réseau MPLS en utilisant des étiquettes (ou labels) qui sont ajoutées aux paquets de données. Ces étiquettes indiquent au réseau MPLS où acheminer les données.
+	* 3.  Les données sont acheminées sur le réseau MPLS de manière efficace en utilisant des algorithmes de routage qui permettent de sélectionner le meilleur chemin pour acheminer les données.
+	* 4.  Les données sont délivrées à leur destination finale en enlevant les étiquettes et en utilisant l'adresse IP de destination.
+
+# III) Différents protocoles VPN
+
+* Il existe de nombreux protocoles VPN différents qui peuvent être utilisés pour établir une connexion VPN.
+
+## PPTP (Point-to-Point Tunneling Protocol)
 * Le plus ancien protocole 
 * Peu sécurisé 
 * Obsolète
 
-### L2TP/IPsec (Layer2 Tunneling Protocol)
+## L2TP(Layer2 Tunneling Protocol)
 * Fonctionne par dessus IPsec (système de cléf)
-* Système de multi-authentification +  sécurisation et du chiffrement des données grace à IPsec
-* Possibilité d'un tunneling en mutli-threading et donc l'exécution de plusieurs tâches sécurisées en simultané
+* Plus sécurisé que PPTP
+* Plus complexe à configurer
 
-### IKEv2 (Internet Key Exchange version 2)
-* Basé sur IPsec (système de cléfs)
-* Identifie les deux bouts du tunnel IPsec
-* On l'utilise souvent sur mobile grâce à sa gestion du passage d'un réseau wifi peu sécurisée vers le réseau de données mobiles
-### OpenVPN
+## SSTP (Secure Socket Tunneling Protocol)
+* Utilise SSL pour chiffrer les données et établir une connexion sécurisée. Il est souvent utilisé par les entreprises pour se connecter à des réseaux d'entreprise de manière sécurisée, mais il nécessite généralement l'installation de logiciel spécial sur les ordinateurs client.
+
+## IKEv2 (Internet Key Exchange version 2)
+* Permet d'établir une connexion sécurisée entre deux points sur un réseau.
+* Très adapté aux connexions mobiles
+* Utilise une clé de session commune pour chiffrer les communications.
+* Voici comment le protocole IKEv2 fonctionne en détail :
+	* 1.  Lorsqu'un utilisateur veut établir une connexion VPN à l'aide d'IKEv2, il envoie une requête au serveur VPN.
+	* 2.  Le serveur VPN envoie au client une invitation à établir une connexion sécurisée en utilisant le protocole IKEv2.
+	* 3.  Le client envoie une réponse au serveur VPN en utilisant le protocole IKEv2 pour établir une session de négociation de clé.
+	* 4.  Le serveur VPN et le client échangent des informations de clé et de chiffrement, et établissent une clé de session commune pour chiffrer les communications.
+	* 5.  Une fois la clé de session établie, le serveur VPN et le client peuvent échanger des données de manière sécurisée en utilisant le protocole IKEv2.
+## OpenVPN
 * Le plus populaire
 * Rapide et fiable
 * Utilisent majoritairement AES 256 bits pour la méthode chiffrement

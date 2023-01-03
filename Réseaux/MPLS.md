@@ -2,7 +2,7 @@
 
 # 1) Principe MPLS
 * MPLS = ***Multiprotocol Label Switching***
-* Réseau privé et sécurisé de bout en bout
+* Type de réseau privé et sécurisé de bout en bout
 * Ne transite pas par Internet et permet une gestion **centralisée** et **simplifiée** du réseau via un opérateur qui supervise et maintient l’ensemble.
 * Intérêts
 	* Garantir une QoS excellente
@@ -61,6 +61,16 @@ InPort | InLabel | Saut_routeur | OutLabel
 * 1) Paquet IP labelisé arrive au routeur de sortie PE
 * 2) Retrait du label et transmission du paquet IP dans le réseau de destination (LAN) au niveau de la couche réseau
 ![[MPLS_1.png]]
+# 3) Différence entre MPLS et l'Internet
+* MPLS achemine le trafic de manière plus efficace et plus rapide que l'Internet classique
+* Internet utilise des protocoles de routage basés sur l'adresse IP pour acheminer le trafic
+* MPLS utilise des labels qui sont attachés aux paquets de données et qui indiquent comment acheminer ces paquets à leur destination finale.
+* Voici quelques-unes des principales différences entre le MPLS et l'Internet classique :
+	* ***Performance*** : Le MPLS est généralement considéré comme plus rapide et plus fiable que l'Internet classique, car il utilise des labels pour acheminer le trafic de manière plus directe et sans la latence associée au routage basé sur l'adresse IP.
+	* ***Sécurité*** : Le MPLS est généralement considéré comme plus sécurisé que l'Internet classique, car il est géré par un opérateur privé et est donc moins exposé aux attaques externes.
+	* ***Coût*** : Le MPLS peut être plus coûteux que l'Internet classique, car il nécessite l'achat de bande passante dédiée et est généralement proposé sous forme de service payant par les opérateurs de réseau. Cependant, le coût supplémentaire est souvent justifié par les avantages en termes de performance et de sécurité mentionnés ci-dessus.
+	* ***Flexibilité*** : L'Internet classique est généralement considéré comme plus flexible que le MPLS, car il permet de se connecter à n'importe quel site ou service sur Internet. Le MPLS, en revanche, est généralement conçu pour connecter un nombre limité de sites ou de services, ce qui peut limiter la flexibilité de votre réseau.
+* MPLS est un type de réseau privé qui offre une performance et une sécurité supérieures à celles de l'Internet classique, mais peut être plus coûteux et moins flexible. Il est généralement utilisé par les entreprises et les organisations qui ont besoin d'un réseau fiable et performant pour connecter leurs sites ou leurs services entre eux.
 # 3) Glossaire
 * ***LSR*** (Label Switch Router)
 	* Routeur avec fonctionnalités MPLS
