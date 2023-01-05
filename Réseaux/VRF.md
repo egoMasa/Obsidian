@@ -1,6 +1,39 @@
-# Guide VRF
-* Une VRF est une technologie similaire au VLAN mais sur la couche 3
+# Guide VRF (Virtual Routing and Forwarding)
+
+# I) Généralités
+* Ce sont des tables de routage virtuelle
+* Permettent de créer des réseaux privés virtuels au sein d'un réseau physique (LAN)
+* Permettent de créer plusieurs réseaux privés au sein d'un réseau étendu (WAN)
 * Il permet de segmenter un routeur en plusieurs sous chemins, isoler par rapport aux autres
+* Chaque VRF possède sa propre table de routage
+	* Séparer les paquets en fonction de la destination
+	* Maintenir privés et sécurisé
+
+# II) Fonctionnement
+* Chaque VRF possède un table de routage avec informations de routage pour les paquets à destination cette VRF
+* Quand paquet entre dans le routeur, il est acheminé en fonction de sa destination grace à la table de routage de cette VRF
+
+# III) Système de conjonction 
+
+## Route dinstinguisher 
+* Distinguer à quelle VRF appartient la route
+* Identifiant unique qui distingue les routes appartenant à différentes VRF
+* Empêche les conflits de routage entre différentes VRF et garantit que chaque route achemine bien vers la bonne VRF
+```
+ASN:nn
+```
+* On renseigne une RD par VRF sur chaque routeur
+
+## Route target (A quelle VRF sera livré le paquet)
+* Identifiant unique qui spécifie à quelle VRF une route doit être acheminé
+* Pour configurer les règles de routage qui déterminent comment sont acheminés les paquets 
+* BGP est utilisé pour acheminer les paquets entre différentes VRF avec les numéro ASN 
+### 1) Route target import
+* Spécifie les VRF auxquelles un routeur doit acheminer les paquets selon leur destination
+* J'import ce que les autres exportent
+### 2) Route target export
+* Spécifie les VRF auxquelles un routeur doit envoyer les paquets selon leur source
+* J'exporte ce que les autres importent
 
 # 1) Création et assignation
 
